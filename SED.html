@@ -1,0 +1,126 @@
+<!--
+/*************************************************************/
+// Author                           : RLM                                                  
+// Creation date                 	: 18/01/2019
+// Candidate                        : Ionut Constantin Sultana
+/*************************************************************/ 
+-->
+<HTML>
+    <HEAD>
+        <TITLE>Comment Update</TITLE>
+        <META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=utf-8">
+        <LINK rel="stylesheet" type="text/css" href="./css/style.css">
+    </HEAD>
+    <BODY class="Dlg" onload="">
+        <div class="formContainer">
+            <h3>Please enter your comment:</h3>
+            <FORM id=frmMain method=post name=frmMain>
+                <SPAN id=TabHolder></SPAN>
+                <TABLE id=Layout class=tblLayout>
+                    <TBODY>
+                    <TBODY>
+                        <TR>
+                            <TD>
+                                <textarea id="champ" name="champ" rows="5" cols="33"></textarea>
+                            </TD>
+                        </TR>
+                    </TBODY>
+                </TABLE>
+                <SPAN style="TEXT-ALIGN: right; MARGIN-TOP: 4px; WIDTH: 100%">
+                    <INPUT style="WIDTH: 100px" onclick="formActions.addDataToTable()" id="btnValid" name="btnValid" align="right" value="Save" type="button"/>
+                    <INPUT style="WIDTH: 100px" onclick="formActions.clearForm()" id="btnCancel" name="btnCancel" align="right" value="Cancel" type="button"/>
+                </SPAN>
+            </FORM>
+        </div>
+        <div id="databaseTable">
+            <table>
+                <thead>
+                    <tr>
+                        <td>Id
+                        </td>
+                        <td>Supplier's ID
+                        </td>
+                        <td>Comment
+                        </td>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <SCRIPT language="javascript" type="text/javascript">
+
+            //=====================================================================================================================================
+            //Function :
+            //=====================================================================================================================================
+
+            // Capture User comment 
+            var textareaComment = document.getElementById('champ')// Get tbody of databaseTable for insert operations
+              , tbody = document.getElementById('databaseTable').getElementsByTagName('tbody')[0]//  Useful flag for unique ID and Supplier's ID          
+              , i = 0;
+
+            var formActions = {
+
+                // Delete current comment                
+                clearForm: function() {
+                    document.getElementById('champ').value = '';
+                },
+
+                // Create unique identifier using flag i                  
+                createIdentifier: function() {
+                    i++;
+                    var newRow = tbody.insertRow(tbody.rows.length);
+                    newRow.id = 'row' + i;
+
+                    //Add a new td element
+                    formActions.addtd(i, 0);
+
+                },
+
+                // Create unique Supplier's ID using flag i                
+                createNumSupplier: function() {
+                    var num_supplier = 'num_supplier_' + i;
+                    formActions.addtd(num_supplier, -1);
+                    return num_supplier;
+                },
+
+                // Add a new tr and call necessary functions
+                addDataToTable() {
+                    if (!formActions.isEmpty()) {
+                        formActions.createIdentifier();
+                        formActions.createNumSupplier();
+
+                        formActions.addtd(textareaComment.value, 1);
+                    }
+                },
+
+                // Validation - Check if the user's comment is empty               
+                isEmpty() {
+                    if (textareaComment.value == '' || textareaComment.value.startsWith(' ')) {
+                        window.alert('Please insert a valid message');
+                        return true;
+                    }
+                },
+
+                addEffect() {
+                },
+
+                //Insert a td element with 2 arguments
+                // textNode - text node to be inserted = String
+                // index - position of newly created td = Number
+                addtd(textNode, index) {
+                    let tr = document.createElement('TR')
+                      , newRow = document.getElementById('row' + i)
+                      , newCell = newRow.insertCell(index)
+                      , newText = document.createTextNode(textNode);
+                    newCell.appendChild(newText);
+
+                }
+            }
+
+            //##########################################################################################################################################
+        </SCRIPT>
+        <footer>
+            <p>Created by Ionut Constantin Sultana</p>
+         <footer>
+    </BODY>
+</HTML>
